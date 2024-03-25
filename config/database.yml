@@ -14,7 +14,9 @@
 #
 default: &default
   adapter: postgresql
-  username: postgres
+  host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
+  username: <%= Rails.application.credentials.dig(:db, :username) %>
+  password: <%= Rails.application.credentials.dig(:db, :password) %>
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
@@ -81,5 +83,3 @@ test:
 production:
   <<: *default
   database: chatroom_test_production
-  username: <%= ENV["CHATROOM_TEST_DATABASE_USERNAME"] %>
-  password: <%= ENV["CHATROOM_TEST_DATABASE_PASSWORD"] %>
