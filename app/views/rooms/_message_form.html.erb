@@ -1,4 +1,4 @@
-<%= simple_form_for [@current_room, @message], remote: true, data: { controller: "clear-form", action: "turbo:submit-end->clear-form#clear" } do |form| %>
+<%= simple_form_for [@current_room, @message], remote: true, data: { controller: "clear-form", action: "turbo:submit-end->clear-form#clear keydown->clear-form#submitOnEnter" } do |form| %>
   <label for="room_message_message" class="sr-only">Your message</label>
   <div class="flex items-center pt-3 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
     <%= form.input_field :message,
