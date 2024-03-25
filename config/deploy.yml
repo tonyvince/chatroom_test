@@ -2,17 +2,17 @@
 service: chat_app
 
 # Name of the container image.
-image: user/my-app
+image: tonyvince/chatapp:latest
 
 # Deploy to these servers.
 servers:
-  - 192.168.0.1
+  - 138.68.108.252
 
 # Credentials for your image host.
 registry:
   # Specify the registry server, if you're not using Docker Hub
   # server: registry.digitalocean.com / ghcr.io / ...
-  username: my-user
+  username: tonyvince
 
   # Always use an access token rather than real password when possible.
   password:
@@ -22,13 +22,19 @@ registry:
 # Remember to run `kamal env push` after making changes!
 # env:
 #   clear:
-#     DB_HOST: 192.168.0.2
+#     DB_HOST: 138.68.108.252
 #   secret:
 #     - RAILS_MASTER_KEY
+env:
+  secret:
+    - RAILS_MASTER_KEY
 
 # Use a different ssh user than root
 # ssh:
 #   user: app
+
+volumes:
+  - "storage:/rails/storage"
 
 # Configure builder setup.
 # builder:
