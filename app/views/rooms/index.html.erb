@@ -1,1 +1,42 @@
-<h1>Rooms index</h1>
+<section class="bg-white dark:bg-gray-900">
+  <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+    <div class="mr-auto place-self-center lg:col-span-7">
+        <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">Chat for the Masses</h1>
+        <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
+          You can create a new room or join an existing chat room.
+          Test this Rails app with multiple browser sessions.
+          Invite option coming soon.
+        </p>
+        <%= render partial: 'form' %>
+    </div>
+    <div class="hidden pt-5 lg:mt-3 lg:col-span-5 lg:flex">
+      <img src="https://www.mirrorfly.com/blog/wp-content/uploads/2023/10/online-chat-rooms.webp" alt="mockup">
+    </div>
+  </div>
+
+  <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:grid-cols-12">
+    <div class="mr-auto place-self-center lg:col-span-7">
+      <h2 class="text-4xl font-extrabold dark:text-white">All rooms</h2>
+    </div>
+  </div>
+
+  <%= turbo_stream_from "rooms" %>
+  <div class="grid max-w-screen-xl px-4 py-8 mx-auto grid-cols-4 gap-4">
+    <div class="col-span-2">
+      <%= render partial: 'rooms' %>
+    </div>
+    <div class="col-span-2">
+      <% if @current_room %>
+        <h3 class="max-w-2xl mb-2 text-2xl font-bold leading-none md:text-5xl xl:text-2xl dark:text-white">
+          Room: <%= @current_room.name %>
+        </h3>
+        <%= turbo_stream_from @current_room %>
+        <div id="room_messages">
+          <%= render @messages  %>
+        </div>
+        <%= render partial: 'message_form' %>
+      <% end %>
+    </div>
+  </div>
+</section>
+
