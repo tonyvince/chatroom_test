@@ -2,11 +2,15 @@
 service: chat_app
 
 # Name of the container image.
-image: tonyvince/chatapp:latest
+image: tonyvince/chatapp
 
 # Deploy to these servers.
 servers:
-  - 138.68.108.252
+  web:
+    hosts:
+      - 138.68.108.252
+    options:
+      network: "chat_network"
 
 # Credentials for your image host.
 registry:
@@ -26,15 +30,54 @@ registry:
 #   secret:
 #     - RAILS_MASTER_KEY
 env:
+  clear:
+    DB_HOST: chat_app-postgres
+    REDIS_URL: redis://chat_app-redis:6379/0
   secret:
     - RAILS_MASTER_KEY
+    - POSTGRES_PASSWORD
 
 # Use a different ssh user than root
 # ssh:
 #   user: app
 
+accessories:
+  postgres:
+    image: postgres:16
+    host: 138.68.108.252
+    options:
+      network: "chat_network"
+    env:
+      clear:
+        POSTGRES_DB: chatroom_test_production
+        POSTGRES_USER: postgres
+      secret:
+        - POSTGRES_PASSWORD
+    cmd: [
+      postgres,
+      -c, "pg_stat_statements.track=all",
+      -c, "shared_preload_libraries=pg_stat_statements"
+    ]
+    files:
+      - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
+    directories:
+      - data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7.2.3
+    host: 138.68.108.252
+    options:
+      network: "chat_network"
+    directories:
+      - data:/data
+
 volumes:
   - "storage:/rails/storage"
+
+healthcheck:
+  log_lines: 10_000
+  max_attempts: 10
+  interval: 2s
 
 # Configure builder setup.
 # builder:
