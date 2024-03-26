@@ -80,3 +80,5 @@ group :test do
 end
 
 gem "kamal", "~> 1.4"
+
+gem "actionmailer", "~> 7.1"
