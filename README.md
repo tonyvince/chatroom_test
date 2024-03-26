@@ -1,4 +1,5 @@
 # Chat Application
+![workflow](https://github.com/tonyvince/chatroom_test/actions/workflows/ci.yml/badge.svg)
 
 This is a real-time chat application built with Ruby on Rails, leveraging user authentication, room creation/joining capabilities, and real-time messaging. It employs Hotwire for a minimal JavaScript footprint and Tailwind CSS for styling.
 

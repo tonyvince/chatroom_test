@@ -15,7 +15,7 @@
 default: &default
   adapter: postgresql
   host: <%= ENV.fetch("DB_HOST", "localhost") %>
-  username: <%= Rails.application.credentials.dig(:db, :username) %>
+  username: <%= Rails.application.credentials.dig(:db, :username) || 'postgres' %>
   password: <%= Rails.application.credentials.dig(:db, :password) %>
   encoding: unicode
   port: 5432
